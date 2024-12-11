@@ -10,6 +10,7 @@ import (
 	"github.com/fatih/structs"
 	"github.com/lib/pq"
 	"log/slog"
+	"reflect"
 	"strings"
 )
 
@@ -135,14 +136,31 @@ func (sl *SongLibrary) GetList(filter *dto.GetSongsListRequest, pagination *pagi
 			continue
 		}
 
-		if tag := field.Tag("db"); tag != "" {
-			filterMap[tag] = field.Value()
+		var valRes any
+		tag := field.Tag("db")
+		val := reflect.ValueOf(field.Value())
+		if val.Kind() == reflect.Ptr {
+			if !val.IsNil() {
+				valRes = val.Elem().Interface()
+			} else {
+				continue
+			}
+		} else {
+			valRes = field.Value()
+		}
+
+		if tag != "" {
+			filterMap[tag] = valRes
 		}
 	}
 
 	songs, err := sl.repo.GetList(filterMap, pagination)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", fn, err)
+	}
+
+	if len(songs) == 0 {
+		return nil, fmt.Errorf("%s: %w", fn, ErrNoRowsAffected)
 	}
 
 	return dto.NewGetSongsListResponse(songs), nil

@@ -110,7 +110,7 @@ func (sl *SongLibrary) GetList(filter map[string]interface{}, pagination *pagina
 	queryBuilder = buildPagination(queryBuilder, pagination, 10)
 
 	for key, value := range filter {
-		queryBuilder = queryBuilder.Where(squirrel.Eq{`"` + key + `"`: value})
+		queryBuilder = queryBuilder.Where(`"`+key+`" LIKE ?`, fmt.Sprint("%", value, "%"))
 	}
 
 	query, args, err := queryBuilder.ToSql()

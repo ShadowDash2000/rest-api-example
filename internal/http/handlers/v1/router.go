@@ -24,7 +24,7 @@ func NewRouter(log *slog.Logger, r *chi.Mux, sluc *usecases.SongLibrary) {
 				Get("/", sl.getList)
 
 			r.Post("/", sl.create)
-			r.Patch("/", sl.update)
+			r.Put("/", sl.update)
 			r.Delete("/", sl.delete)
 
 			r.Route("/text", func(r chi.Router) {

@@ -32,8 +32,8 @@ type GetTextResponse struct {
 }
 
 type GetSongRequest struct {
-	Group string `json:"group" validate:"required"`
-	Song  string `json:"song" validate:"required"`
+	Group string `schema:"group" validate:"required"`
+	Song  string `schema:"song" validate:"required"`
 }
 
 type GetSongResponse struct {
@@ -51,11 +51,11 @@ func NewGetSongResponse(res *entities.Song) *GetSongResponse {
 }
 
 type GetSongsListRequest struct {
-	Group       string  `json:"group" db:"group"`
-	Song        string  `json:"song" db:"song"`
-	ReleaseDate *string `json:"releaseDate" db:"release_date"`
-	Link        *string `json:"link" db:"link"`
-	Text        *string `json:"text" db:"text"`
+	Group       string  `schema:"group" db:"group"`
+	Song        string  `schema:"song" db:"song"`
+	ReleaseDate *string `schema:"releaseDate" db:"release_date"`
+	Link        *string `schema:"link" db:"link"`
+	Text        *string `schema:"text" db:"text"`
 }
 
 type GetSongsListResponse struct {

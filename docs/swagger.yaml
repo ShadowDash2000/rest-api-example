@@ -1,0 +1,331 @@
+basePath: /
+definitions:
+  dto.CreateSongRequest:
+    properties:
+      group:
+        type: string
+      song:
+        type: string
+    required:
+    - group
+    - song
+    type: object
+  dto.DeleteSongRequest:
+    properties:
+      group:
+        type: string
+      song:
+        type: string
+    required:
+    - group
+    - song
+    type: object
+  dto.GetSongResponse:
+    properties:
+      link:
+        type: string
+      releaseDate:
+        type: string
+      text:
+        type: string
+    type: object
+  dto.GetSongsListResponse:
+    properties:
+      group:
+        type: string
+      link:
+        type: string
+      releaseDate:
+        type: string
+      song:
+        type: string
+      text:
+        type: string
+    type: object
+  dto.GetTextRequest:
+    properties:
+      group:
+        type: string
+      song:
+        type: string
+    required:
+    - group
+    - song
+    type: object
+  dto.GetTextResponse:
+    properties:
+      text:
+        type: string
+    type: object
+  dto.UpdateSongRequest:
+    properties:
+      group:
+        type: string
+      link:
+        type: string
+      releaseDate:
+        type: string
+      song:
+        type: string
+      text:
+        type: string
+    required:
+    - group
+    - song
+    type: object
+  response.Response:
+    properties:
+      message:
+        type: string
+      status:
+        type: string
+    type: object
+host: localhost:25565
+info:
+  contact: {}
+  title: REST API EXAMPLE
+  version: "1.0"
+paths:
+  /info:
+    get:
+      consumes:
+      - application/json
+      description: Get the song info
+      operationId: get-song-info
+      parameters:
+      - description: group name
+        in: query
+        name: group
+        required: true
+        type: string
+      - description: song name
+        in: query
+        name: song
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetSongResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Song Library
+      tags:
+      - song-library
+  /v1/songs:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a specific song
+      operationId: delete-song
+      parameters:
+      - description: song info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DeleteSongRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Song Library
+      tags:
+      - song-library
+    get:
+      consumes:
+      - application/json
+      description: Get a list of songs
+      operationId: get-songs-list
+      parameters:
+      - description: paginate through the songs list
+        in: query
+        name: offset
+        type: integer
+      - description: sets the list limit
+        in: query
+        name: limit
+        type: integer
+      - description: group name
+        in: query
+        name: group
+        type: string
+      - description: ' song name'
+        in: query
+        name: song
+        type: string
+      - description: release date
+        format: date
+        in: query
+        name: releaseDate
+        type: string
+      - description: link
+        in: query
+        name: link
+        type: string
+      - description: lyrics
+        in: query
+        name: text
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/dto.GetSongsListResponse'
+              type: array
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Song Library
+      tags:
+      - song-library
+    post:
+      consumes:
+      - application/json
+      description: Create a song
+      operationId: create-song
+      parameters:
+      - description: song info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateSongRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Song Library
+      tags:
+      - song-library
+    put:
+      consumes:
+      - application/json
+      description: Update a specific song
+      operationId: update-song
+      parameters:
+      - description: song info and the fields to update
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateSongRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Song Library
+      tags:
+      - song-library
+  /v1/songs/text:
+    get:
+      consumes:
+      - application/json
+      description: Get the lyrics of the song
+      operationId: get-song-lyrics
+      parameters:
+      - description: paginate through the song lyrics paragraphs
+        in: query
+        name: offset
+        type: integer
+      - description: song info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/dto.GetTextRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetTextResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Song Library
+      tags:
+      - song-library
+swagger: "2.0"

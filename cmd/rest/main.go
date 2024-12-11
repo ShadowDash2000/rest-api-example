@@ -11,6 +11,12 @@ import (
 	"os"
 )
 
+// @title REST API EXAMPLE
+// @version 1.0
+
+// @host localhost:25565
+// @BasePath /
+
 const (
 	envLocal = "local"
 	envProd  = "prod"

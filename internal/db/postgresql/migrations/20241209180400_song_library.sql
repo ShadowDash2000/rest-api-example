@@ -16,6 +16,7 @@ ALTER TABLE song_library
 
 CREATE INDEX idx_song_library_group ON song_library ("group");
 CREATE INDEX idx_song_library_song ON song_library (song);
+CREATE INDEX idx_song_library_text ON song_library USING GIN (to_tsvector('simple', text));
 -- +goose StatementEnd
 
 -- +goose Down
