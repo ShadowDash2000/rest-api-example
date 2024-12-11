@@ -92,7 +92,7 @@ func (sl *SongLibrary) Get(group, song string) (*entities.Song, error) {
 	return &songRes, nil
 }
 
-func (sl *SongLibrary) GetList(filter map[string]interface{}, pagination *pagination.Pagination) ([]*entities.Song, error) {
+func (sl *SongLibrary) GetList(filter map[string]interface{}, pagination *pagination.Pagination) (*[]entities.Song, error) {
 	const fn = "sl.postgres.SongLibrary.GetList"
 	var query string
 
@@ -118,13 +118,13 @@ func (sl *SongLibrary) GetList(filter map[string]interface{}, pagination *pagina
 		return nil, fmt.Errorf("%s: %w", fn, err)
 	}
 
-	var songs []*entities.Song
+	var songs []entities.Song
 	err = sl.db.Select(&songs, query, args...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", fn, err)
 	}
 
-	return songs, nil
+	return &songs, nil
 }
 
 func (sl *SongLibrary) Update(group, song string, fields map[string]interface{}) error {

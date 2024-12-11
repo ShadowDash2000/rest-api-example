@@ -17,7 +17,7 @@ import (
 type SongLibraryRepo interface {
 	Create(group, song string) error
 	Get(group, song string) (*entities.Song, error)
-	GetList(filter map[string]interface{}, pagination *pagination.Pagination) ([]*entities.Song, error)
+	GetList(filter map[string]interface{}, pagination *pagination.Pagination) (*[]entities.Song, error)
 	Update(group, song string, fields map[string]interface{}) error
 	Delete(group, song string) error
 }
@@ -159,7 +159,7 @@ func (sl *SongLibrary) GetList(filter *dto.GetSongsListRequest, pagination *pagi
 		return nil, fmt.Errorf("%s: %w", fn, err)
 	}
 
-	if len(songs) == 0 {
+	if len(*songs) == 0 {
 		return nil, fmt.Errorf("%s: %w", fn, ErrNoRowsAffected)
 	}
 

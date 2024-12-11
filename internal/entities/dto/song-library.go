@@ -61,9 +61,9 @@ type GetSongsListRequest struct {
 type GetSongsListResponse struct {
 	Group       string  `json:"group" db:"group"`
 	Song        string  `json:"song" db:"song"`
-	ReleaseDate *string `json:"releaseDate,omitempty" db:"release_date"`
-	Link        *string `json:"link,omitempty" db:"link"`
-	Text        *string `json:"text,omitempty" db:"text"`
+	ReleaseDate *string `json:"releaseDate" db:"release_date"`
+	Link        *string `json:"link" db:"link"`
+	Text        *string `json:"text" db:"text"`
 }
 
 func NewSongResponse(res *entities.Song) *GetSongsListResponse {
@@ -76,10 +76,10 @@ func NewSongResponse(res *entities.Song) *GetSongsListResponse {
 	}
 }
 
-func NewGetSongsListResponse(res []*entities.Song) []*GetSongsListResponse {
+func NewGetSongsListResponse(res *[]entities.Song) []*GetSongsListResponse {
 	var songs []*GetSongsListResponse
-	for _, song := range res {
-		songs = append(songs, NewSongResponse(song))
+	for _, song := range *res {
+		songs = append(songs, NewSongResponse(&song))
 	}
 	return songs
 }
