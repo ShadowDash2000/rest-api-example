@@ -42,16 +42,6 @@ definitions:
       text:
         type: string
     type: object
-  dto.GetTextRequest:
-    properties:
-      group:
-        type: string
-      song:
-        type: string
-    required:
-    - group
-    - song
-    type: object
   dto.GetTextResponse:
     properties:
       text:
@@ -300,12 +290,16 @@ paths:
         in: query
         name: offset
         type: integer
-      - description: song info
-        in: body
-        name: input
+      - description: group name
+        in: query
+        name: group
         required: true
-        schema:
-          $ref: '#/definitions/dto.GetTextRequest'
+        type: string
+      - description: song name
+        in: query
+        name: song
+        required: true
+        type: string
       produces:
       - application/json
       responses:

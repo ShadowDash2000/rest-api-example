@@ -341,13 +341,18 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
-                        "description": "song info",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.GetTextRequest"
-                        }
+                        "type": "string",
+                        "description": "group name",
+                        "name": "group",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "song name",
+                        "name": "song",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -440,21 +445,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "text": {
-                    "type": "string"
-                }
-            }
-        },
-        "dto.GetTextRequest": {
-            "type": "object",
-            "required": [
-                "group",
-                "song"
-            ],
-            "properties": {
-                "group": {
-                    "type": "string"
-                },
-                "song": {
                     "type": "string"
                 }
             }

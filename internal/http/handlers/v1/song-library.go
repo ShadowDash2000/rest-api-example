@@ -89,7 +89,8 @@ func (sl *songLibrary) create(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param offset query int false "paginate through the song lyrics paragraphs"
-// @Param input body dto.GetTextRequest true "song info"
+// @Param group query string true "group name"
+// @Param song query string true "song name"
 // @Success 200 {object} dto.GetTextResponse
 // @Failure 400 {object} response.Response
 // @Failure 500 {object} response.Response
@@ -105,16 +106,18 @@ func (sl *songLibrary) getText(w http.ResponseWriter, r *http.Request) {
 
 	var req dto.GetTextRequest
 
-	err := render.DecodeJSON(r.Body, &req)
+	decoder := schema.NewDecoder()
+	decoder.IgnoreUnknownKeys(true)
+	err := decoder.Decode(&req, r.URL.Query())
 	if err != nil {
-		sl.log.Error("failed to decode request body", slog.String("error", err.Error()))
+		sl.log.Error("failed to decode request query", slog.String("error", err.Error()))
 
 		response.RenderError(w, r, http.StatusBadRequest, "")
 
 		return
 	}
 
-	sl.log.Info("request body decoded", slog.Any("request", req))
+	sl.log.Info("request query decoded", slog.Any("request", req))
 
 	if err = validator.New().Struct(req); err != nil {
 		response.RenderError(w, r, http.StatusBadRequest, err.Error())
@@ -168,7 +171,9 @@ func (sl *songLibrary) get(w http.ResponseWriter, r *http.Request) {
 
 	var req dto.GetSongRequest
 
-	err := schema.NewDecoder().Decode(&req, r.URL.Query())
+	decoder := schema.NewDecoder()
+	decoder.IgnoreUnknownKeys(true)
+	err := decoder.Decode(&req, r.URL.Query())
 	if err != nil {
 		sl.log.Error("failed to decode request query", slog.String("error", err.Error()))
 
@@ -232,7 +237,9 @@ func (sl *songLibrary) getList(w http.ResponseWriter, r *http.Request) {
 
 	var req dto.GetSongsListRequest
 
-	err := schema.NewDecoder().Decode(&req, r.URL.Query())
+	decoder := schema.NewDecoder()
+	decoder.IgnoreUnknownKeys(true)
+	err := decoder.Decode(&req, r.URL.Query())
 	if err != nil {
 		sl.log.Error("failed to decode request query", slog.String("error", err.Error()))
 

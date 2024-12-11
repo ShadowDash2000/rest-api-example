@@ -23,8 +23,8 @@ type DeleteSongRequest struct {
 }
 
 type GetTextRequest struct {
-	Group string `json:"group" validate:"required"`
-	Song  string `json:"song" validate:"required"`
+	Group string `schema:"group" validate:"required"`
+	Song  string `schema:"song" validate:"required"`
 }
 
 type GetTextResponse struct {
