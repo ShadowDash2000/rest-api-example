@@ -131,10 +131,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "type": "array",
-                                "items": {
-                                    "$ref": "#/definitions/dto.GetSongsListResponse"
-                                }
+                                "$ref": "#/definitions/dto.GetSongsListResponse"
                             }
                         }
                     },

@@ -222,7 +222,7 @@ func (sl *songLibrary) get(w http.ResponseWriter, r *http.Request) {
 // @Param releaseDate query string false "release date" format(date)
 // @Param link query string false "link"
 // @Param text query string false "lyrics"
-// @Success 200 {array} []dto.GetSongsListResponse
+// @Success 200 {array} dto.GetSongsListResponse
 // @Failure 400 {object} response.Response
 // @Failure 500 {object} response.Response
 // @Failure default {object} response.Response
